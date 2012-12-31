@@ -38,7 +38,8 @@
     _imageCropper = [[NLImageCropperView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:_imageCropper];
     [_imageCropper setImage:[UIImage imageNamed:@"sample.jpg"]];
-    [_imageCropper setCropRegionRect:CGRectMake(10, 50, 450, 680)];
+    [_imageCropper setOriginX:100 setOriginY:500 setHeightRatio:4.625 setWidthRatio: 11.125];
+//    [_imageCropper ]
 #ifndef ARC
     [_imageCropper release];
 #endif

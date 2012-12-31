@@ -39,7 +39,12 @@ enum rectPoint { LeftTop = 0, RightTop=1, LeftBottom = 2, RightBottom = 3, MoveC
     CGPoint _lastMovePoint;
     CGFloat _scalingFactor;
 }
+@property CGFloat cropWidth;
+@property CGFloat cropHeight;
+@property CGFloat cropRatio;
 - (void)setCropRegionRect:(CGRect)cropRect;
+//- (void)setCropSizeWithCGRect:(CGRect)cropRect;
+- (void)setOriginX:(CGFloat)originX setOriginY:(CGFloat)originY setHeightRatio:(CGFloat)heightRatio setWidthRatio:(CGFloat)widthRatio;
 - (void) setImage:(UIImage*)image;
 - (void) setFrame:(CGRect)frame;
 - (void) reLayoutView;

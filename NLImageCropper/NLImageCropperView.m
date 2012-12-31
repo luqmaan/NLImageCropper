@@ -32,13 +32,25 @@
 
 @implementation NLImageCropperView
 
+@synthesize cropHeight, cropWidth, cropRatio;
+
 - (void)setCropRegionRect:(CGRect)cropRect
 {
     _cropRect = cropRect;
-    _translatedCropRect =CGRectMake(cropRect.origin.x/_scalingFactor, cropRect.origin.y/_scalingFactor, cropRect.size.width/_scalingFactor, cropRect.size.height/_scalingFactor);
+    _translatedCropRect =CGRectMake(cropRect.origin.x/_scalingFactor, cropRect.origin.y/_scalingFactor, cropRect.size.width, cropRect.size.height);
+    
     [_cropView setCropRegionRect:_translatedCropRect];
 }
 
+- (void)setOriginX:(CGFloat)originX setOriginY:(CGFloat)originY setHeightRatio:(CGFloat)heightRatio setWidthRatio:(CGFloat)widthRatio
+{
+    
+    self.cropRatio = heightRatio/widthRatio;
+    self.cropWidth = _cropView.bounds.size.width * 0.9;
+    self.cropHeight = self.cropWidth * self.cropRatio;
+    
+    [self setCropRegionRect:CGRectMake(originX, originY, self.cropWidth, self.cropHeight)];
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -221,7 +233,13 @@
             break;
     }
     [_cropView setNeedsDisplay];
-    _cropRect = CGRectMake(_translatedCropRect.origin.x*_scalingFactor, _translatedCropRect.origin.y*_scalingFactor, _translatedCropRect.size.width*_scalingFactor, _translatedCropRect.size.height*_scalingFactor);
+    
+    // Update the crop rectangle. Do not force a certain scale/ratio.
+    //    _cropRect = CGRectMake(_translatedCropRect.origin.x*_scalingFactor, _translatedCropRect.origin.y*_scalingFactor, _translatedCropRect.size.width*_scalingFactor, _translatedCropRect.size.height*_scalingFactor);
+    
+    // Update the crop rectangle according to the scale/ratio set by setHeightRatio, setWidthRatio
+    _cropRect = CGRectMake(_translatedCropRect.origin.x*_scalingFactor, _translatedCropRect.origin.y*_scalingFactor,_translatedCropRect.size.width, _translatedCropRect.size.width * self.cropRatio);
+    
     [self setCropRegionRect:_cropRect];
     
 }
